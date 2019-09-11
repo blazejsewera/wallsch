@@ -4,6 +4,8 @@ from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 import pytz
 import tzlocal
+from pathlib import Path
+import json
 
 
 class WallpaperScheduler(object):
@@ -11,8 +13,8 @@ class WallpaperScheduler(object):
         super(WallpaperScheduler, self).__init__()
 
     local_timezone = tzlocal.get_localzone()
-    warsaw_coords = 52.237049, 21.017532  # TODO: cfg file with coords and tz
-    sun = Sun(*warsaw_coords)
+    coords = 52.237049, 21.017532  # TODO: cfg file with coords and tz
+    sun = Sun(*coords)
 
     sunrise_time = datetime(2019, 1, 1)
     sunset_time = datetime(2019, 1, 1)
@@ -101,17 +103,70 @@ class WallpaperScheduler(object):
         else:
             print('Wallpaper update (night)!')
 
-    def update_filelist(self):
+    def update_filelist(self, path):
         pass
 
     def make_config(self):
         '''
         Method to make a config file interactively
         '''
-        pass  # TODO: implementation
+        home = Path.home()
+        config_dir = home/Path('.config/wallsch')
+        config_file = config_dir/Path('config.json')
+        print('Creating `~/.config/wallsch`...')
+        try:
+            config_dir.mkdir(parents=True)
+        except FileExistsError:
+            print('Directory `~/.config/wallsch` already exists. Skipping.')
+
+        while True:
+            wallpaper_dir = Path(input('Wallpaper directory: ')).absolute()
+            if wallpaper_dir.exists():
+                break
+            else:
+                print('This path does not exist. Check the input.')
+
+        while True:
+            blurred_dir = Path(input('Blurred directory: ')).absolute()
+            if blurred_dir.exists():
+                break
+            else:
+                print('This path does not exist. Check the input.')
+
+        while True:
+            try:
+                latitude = float(input('Latitude: '))
+            except (TypeError, ValueError):
+                print('The number is invalid. Input the number as a float.')
+            if latitude < 90.0 and latitude > -90.0:
+                break
+            else:
+                print('Latitude should be between -90 and 90 degrees.')
+
+        while True:
+            try:
+                longitude = float(input('Longitude: '))
+            except (TypeError, ValueError):
+                print('The number is invalid. Input the number as a float.')
+            if longitude < 180.0 and longitude > -180.0:
+                break
+            else:
+                print('Longitude should be between -180 and 180 degrees.')
+
+        config = {
+            'coords': (latitude, longitude),
+            'wallpaper_dir': wallpaper_dir.as_posix(),
+            'blurred_dir': blurred_dir.as_posix()
+        }
+
+        with config_file.open(mode='w') as cf:
+            json.dump(config, cf, indent=2)
+
+        print('Config written to `~/.config/wallsch/config.json`.')
+        print('You can edit the file there manually.')
 
 
 if __name__ == '__main__':
-    wp_sch = WallpaperScheduler()
-    wp_sch.print_sunrise_sunset()
-    wp_sch.initialize()
+    wallsch = WallpaperScheduler()
+    wallsch.print_sunrise_sunset()
+    wallsch.make_config()
