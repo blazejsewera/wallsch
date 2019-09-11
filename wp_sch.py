@@ -12,12 +12,16 @@ class WallpaperScheduler(object):
     def __init__(self):
         super(WallpaperScheduler, self).__init__()
 
-    local_timezone = tzlocal.get_localzone()
-    coords = 52.237049, 21.017532  # TODO: cfg file with coords and tz
-    sun = Sun(*coords)
+    CONFIG_FILE = Path.home()/Path('.config/wallsch/config.json')
 
-    sunrise_time = datetime(2019, 1, 1)
-    sunset_time = datetime(2019, 1, 1)
+    wallpaper_dir = None
+    blurred_dir = None
+
+    local_timezone = tzlocal.get_localzone()
+    sun = None
+
+    sunrise_time = None
+    sunset_time = None
 
     interval = 60
 
@@ -58,11 +62,18 @@ class WallpaperScheduler(object):
         '''
         Method parsing config file or setting default values
         '''
-        pass  # TODO: implementation
+        with self.CONFIG_FILE.open(mode='r') as cf:
+            config = json.load(cf)
+        self.wallpaper_dir = Path(config['wallpaper_dir'])
+        self.blurred_dir = Path(config['blurred_dir'])
+        self.interval = config['interval']
+        self.sun = Sun(config['latitude'], config['longitude'])
 
     def refresh_sun(self):
         '''
-        Method refreshing sunrise and sunset times every 00:00
+        Method refreshing sunrise and sunset times.
+        Should be executed after parsing the config
+        and every 00:00.
         '''
         now = self.local_timezone.localize(datetime.now())
         self.sunrise_time = self.sun.get_local_sunrise_time()
@@ -110,9 +121,7 @@ class WallpaperScheduler(object):
         '''
         Method to make a config file interactively
         '''
-        home = Path.home()
-        config_dir = home/Path('.config/wallsch')
-        config_file = config_dir/Path('config.json')
+        config_dir = self.CONFIG_FILE.parent()
         print('Creating `~/.config/wallsch`...')
         try:
             config_dir.mkdir(parents=True)
@@ -153,13 +162,23 @@ class WallpaperScheduler(object):
             else:
                 print('Longitude should be between -180 and 180 degrees.')
 
+        while True:
+            try:
+                interval = int(input('Interval between changes (minutes): '))
+            except (TypeError, ValueError):
+                print('The number is invalid. Input the number as an int.')
+                continue
+            break
+
         config = {
-            'coords': (latitude, longitude),
+            'latitude': latitude,
+            'longitude': longitude,
             'wallpaper_dir': wallpaper_dir.as_posix(),
-            'blurred_dir': blurred_dir.as_posix()
+            'blurred_dir': blurred_dir.as_posix(),
+            'interval': interval
         }
 
-        with config_file.open(mode='w') as cf:
+        with self.CONFIG_FILE.open(mode='w') as cf:
             json.dump(config, cf, indent=2)
 
         print('Config written to `~/.config/wallsch/config.json`.')
