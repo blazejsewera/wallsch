@@ -1,0 +1,5 @@
+#!/bin/bash
+# A simpler script only for i3 that loads faster
+# You can also make custom scripts for your DE/WM here
+WP=$1
+feh --bg-fill "$WP" 2> /dev/null
