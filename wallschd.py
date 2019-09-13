@@ -1,4 +1,4 @@
-from wallsch import WallpaperScheduler
+from wallsch.wallsch import WallpaperScheduler
 from pathlib import Path
 import Pyro4
 
@@ -6,10 +6,11 @@ import Pyro4
 @Pyro4.expose
 @Pyro4.behavior(instance_mode='single')
 class WallpaperSchedulerService(object):
-    def __init__(self):
+    def __init__(self, daemon):
         super(WallpaperSchedulerService, self).__init__()
         self.wallsch = WallpaperScheduler()
         self.wallsch.initialize()
+        self.daemon = daemon
 
     def lock_screen(self):
         self.wallsch.lock_screen()
@@ -20,18 +21,19 @@ class WallpaperSchedulerService(object):
     def update_filelist(self):
         self.wallsch.update_filelist()
 
+    def shutdown(self):
+        self.daemon.shutdown()
+
 
 if __name__ == '__main__':
     pid_file = Path.home()/Path('.config/wallsch/pid')
     daemon = Pyro4.Daemon()
     # uri = daemon.register(WallpaperSchedulerService)
-    wss = WallpaperSchedulerService()
+    wss = WallpaperSchedulerService(daemon)
     uri = daemon.register(wss)
 
     with pid_file.open(mode='w') as pid:
         pid.write(str(uri))
 
-    try:
-        daemon.requestLoop()
-    except (KeyboardInterrupt, SystemExit):
-        daemon.shutdown()
+    daemon.requestLoop()
+    daemon.close()

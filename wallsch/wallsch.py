@@ -4,9 +4,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 from pathlib import Path
 import json
+import inspect
 import random
 import subprocess
-import config
+from . import config
 
 
 class WallpaperScheduler(object):
@@ -136,27 +137,27 @@ class WallpaperScheduler(object):
                 self.current_subdir,
                 self.current_wallpaper)
 
+        wallsch_loc = Path(inspect.getabsfile(WallpaperScheduler))
+
         # log
         if config.VERBOSE:
             print(f'Path dir: {self.wallpaper_dir.absolute().as_posix()}')
             print(f'Wallpaper to set: {wallpaper_to_set}')
 
         if config.SIMPLE_SCRIPT:
-            simple_script = Path(__file__).parent/Path('set_wallpaper_simple')\
-                                          .absolute().as_posix()
+            simple = wallsch_loc.parent/Path('set_wallpaper_simple')
             subprocess.run(
                 [
-                    simple_script,
+                    simple.absolute().as_posix(),
                     wallpaper_to_set
                 ],
                 stdout=subprocess.DEVNULL)
 
         else:
-            script = Path(__file__).parent/Path('set_wallpaper').absolute()\
-                                                                .as_posix()
+            script = Path(wallsch_loc).parent/Path('set_wallpaper')
             subprocess.run(
                 [
-                    script,
+                    script.absolute().as_posix(),
                     wallpaper_to_set
                 ],
                 stdout=subprocess.DEVNULL)
@@ -187,10 +188,16 @@ class WallpaperScheduler(object):
         '''
         Method to lock the screen using the blurred wallpaper
         '''
-        lockscreen_script = Path(__file__).parent/Path('lockscreen.sh')\
-                                          .absolute().as_posix()
+        wallsch_loc = inspect.getabsfile(WallpaperScheduler)
+        lockscreen_script = Path(wallsch_loc).parent/Path('lockscreen.sh')
         blurred_wallpaper_to_set = '{0}/{1}/{2}'.format(
                 self.blurred_dir.absolute().as_posix(),
                 self.current_subdir,
                 self.current_wallpaper)
-        subprocess.run([lockscreen_script, blurred_wallpaper_to_set])
+
+        subprocess.run(
+            [
+                lockscreen_script.absolute().as_posix(),
+                blurred_wallpaper_to_set
+            ],
+            stdout=subprocess.DEVNULL)

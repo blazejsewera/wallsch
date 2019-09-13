@@ -16,25 +16,32 @@ def main(argv):
                 wallsch.lock_screen()
             except Pyro4.errors.CommunicationError:
                 print('Daemon not running.')
-                exit()
+                exit(1)
         elif cmd == 'update':
             try:
                 wallsch.update_filelist()
             except Pyro4.errors.CommunicationError:
                 print('Daemon not running.')
-                exit()
+                exit(1)
         elif cmd == 'change':
             try:
                 wallsch.update_wallpaper()
             except Pyro4.errors.CommunicationError:
                 print('Daemon not running.')
-                exit()
+                exit(1)
+        elif cmd == 'close':
+            try:
+                wallsch.shutdown()
+            except Pyro4.errors.CommunicationError:
+                print('Daemon not running.')
+                exit(0)
         else:
             print('Wrong command. Available commands:\n'
                   '  update - update file list (use after adding\n'
                   '    or removing files in wallpaper directory)\n'
                   '  change - change the wallpaper immediately\n'
-                  '  lock - lock the screen')
+                  '  lock - lock the screen\n'
+                  '  close - shutdown the daemon')
 
 
 if __name__ == '__main__':

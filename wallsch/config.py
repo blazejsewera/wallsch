@@ -10,5 +10,5 @@ FILELIST_FILE = Path.home()/Path('.config/wallsch/filelist.json')
 
 local_timezone = get_localzone()
 
-VERBOSE = True
+VERBOSE = False
 SIMPLE_SCRIPT = True
