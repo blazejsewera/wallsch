@@ -9,6 +9,3 @@ CONFIG_FILE = Path.home()/Path('.config/wallsch/config.json')
 FILELIST_FILE = Path.home()/Path('.config/wallsch/filelist.json')
 
 local_timezone = get_localzone()
-
-VERBOSE = False
-SIMPLE_SCRIPT = True

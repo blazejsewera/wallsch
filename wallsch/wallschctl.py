@@ -31,6 +31,9 @@ def main():
             except Pyro4.errors.CommunicationError:
                 print('Daemon not running.')
                 exit(1)
+        elif cmd == 'mkconfig':
+            from wallsch import tools
+            tools.make_config()
         elif cmd == 'close':
             try:
                 wallsch.shutdown()
@@ -43,4 +46,9 @@ def main():
                   '    or removing files in wallpaper directory)\n'
                   '  change - change the wallpaper immediately\n'
                   '  lock - lock the screen\n'
-                  '  close - shutdown the daemon')
+                  '  close - shutdown the daemon\n'
+                  '  mkconfig - interactively make a new config file')
+
+
+if __name__ == '__main__':
+    main()

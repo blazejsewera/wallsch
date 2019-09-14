@@ -14,7 +14,6 @@ setup(name='wallsch',
       long_description_content_type='text/markdown',
       author='Blazej Sewera',
       url='https://github.com/jazzsewera/wallsch',
-      copyright='Copyright 2019 Blazej Sewera',
       license='MPL2',
       packages=['wallsch'],
       install_requires=[
@@ -25,7 +24,7 @@ setup(name='wallsch',
       ],
       entry_points={
         'console_scripts': [
-            'wallschd = wallschd:main',
-            'wallschctl = wallschctl:main'
+            'wallschd = wallsch.wallschd:main',
+            'wallschctl = wallsch.wallschctl:main'
         ]
       })

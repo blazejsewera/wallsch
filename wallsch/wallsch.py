@@ -4,13 +4,17 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.executors.pool import ThreadPoolExecutor
 from pathlib import Path
 import json
-import inspect
 import random
 import subprocess
-from . import config
+from wallsch import config
 
 
 class WallpaperScheduler(object):
+    def __init__(self, verbose=False, extended=False):
+        super(WallpaperScheduler, self).__init__()
+        self.verbose = verbose
+        self.extended = extended
+
     # Parsed from config.json
     wallpaper_dir = None
     day_subdir = 'day'
@@ -49,7 +53,7 @@ class WallpaperScheduler(object):
                                max_instances=1)
 
         # log
-        if config.VERBOSE:
+        if self.verbose:
             self.scheduler.print_jobs()
 
         try:
@@ -119,7 +123,7 @@ class WallpaperScheduler(object):
         self.update_wallpaper()
 
         # log
-        if config.VERBOSE:
+        if self.verbose:
             print('It is day now.') if is_day else print('It is night now.')
 
     def update_wallpaper(self):
@@ -137,27 +141,24 @@ class WallpaperScheduler(object):
                 self.current_subdir,
                 self.current_wallpaper)
 
-        wallsch_loc = Path(inspect.getabsfile(WallpaperScheduler))
-
         # log
-        if config.VERBOSE:
+        if self.verbose:
             print(f'Path dir: {self.wallpaper_dir.absolute().as_posix()}')
             print(f'Wallpaper to set: {wallpaper_to_set}')
 
-        if config.SIMPLE_SCRIPT:
-            simple = wallsch_loc.parent/Path('set_wallpaper_simple')
+        if self.extended:
             subprocess.run(
                 [
-                    simple.absolute().as_posix(),
+                    'set-wallpaper',
                     wallpaper_to_set
                 ],
                 stdout=subprocess.DEVNULL)
 
         else:
-            script = Path(wallsch_loc).parent/Path('set_wallpaper')
             subprocess.run(
                 [
-                    script.absolute().as_posix(),
+                    'feh',
+                    '--bg-fill',
                     wallpaper_to_set
                 ],
                 stdout=subprocess.DEVNULL)
@@ -167,7 +168,7 @@ class WallpaperScheduler(object):
         Method to scan wallpaper folders
         and make a json database with the filenames.
         '''
-        if config.VERBOSE:
+        if self.verbose:
             print('Filelist update started.')
 
         day_dir = self.wallpaper_dir/Path(self.day_subdir)
@@ -181,15 +182,13 @@ class WallpaperScheduler(object):
         with config.FILELIST_FILE.open(mode='w') as ff:
             json.dump(self.filelist, ff)
 
-        if config.VERBOSE:
+        if self.verbose:
             print('Filelist update finished.')
 
     def lock_screen(self):
         '''
         Method to lock the screen using the blurred wallpaper
         '''
-        wallsch_loc = inspect.getabsfile(WallpaperScheduler)
-        lockscreen_script = Path(wallsch_loc).parent/Path('lockscreen.sh')
         blurred_wallpaper_to_set = '{0}/{1}/{2}'.format(
                 self.blurred_dir.absolute().as_posix(),
                 self.current_subdir,
@@ -197,7 +196,7 @@ class WallpaperScheduler(object):
 
         subprocess.run(
             [
-                lockscreen_script.absolute().as_posix(),
+                'lockscreen',
                 blurred_wallpaper_to_set
             ],
             stdout=subprocess.DEVNULL)
