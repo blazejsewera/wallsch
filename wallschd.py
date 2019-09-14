@@ -25,7 +25,7 @@ class WallpaperSchedulerService(object):
         self.daemon.shutdown()
 
 
-if __name__ == '__main__':
+def main():
     pid_file = Path.home()/Path('.config/wallsch/pid')
     daemon = Pyro4.Daemon()
     # uri = daemon.register(WallpaperSchedulerService)

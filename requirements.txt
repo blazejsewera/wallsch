@@ -1,5 +1,4 @@
 apscheduler>=3.6.1
 suntime>=1.2.5
-pytz>=2019.2
 tzlocal>=2.0.0
 pyro4>=4.7.6

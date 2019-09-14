@@ -3,7 +3,9 @@ from pathlib import Path
 import sys
 
 
-def main(argv):
+def main():
+    argv = sys.argv[1:]
+
     pid_file = Path.home()/Path('.config/wallsch/pid')
     with pid_file.open(mode='r') as pid:
         uri = str(pid.read())
@@ -42,7 +44,3 @@ def main(argv):
                   '  change - change the wallpaper immediately\n'
                   '  lock - lock the screen\n'
                   '  close - shutdown the daemon')
-
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
