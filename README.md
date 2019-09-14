@@ -9,6 +9,7 @@ As for now, you will have to blur the background manually, but automatic blurrin
 Find yourself some fancy wallpapers and split them into two directories:
 `{your_wallpaper_directory}/day` and `{your_wp_dir}/night` to your liking.
 If you don't know where to start, consider: [Wallpaper subreddit](https://reddit.com/r/wallpaper) or [Wallhaven](https://wallhaven.cc).
+Blur all the wallpapers and put them in `{your_blur_dir}/day` and `{your_blur_dir}/night` (the same filenames and hierarchy as in wallpaper directory) if you want to use i3lock with blurred backgrounds. If not, simply put the same path in the blurred backgrounds as wallpaper backgrounds in the `wallschctl mkconfig`
 
 ## Installing
 From AUR: wallsch-git
