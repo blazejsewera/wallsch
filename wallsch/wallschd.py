@@ -1,4 +1,4 @@
-from wallsch import WallpaperScheduler
+from wallsch.wallsch import WallpaperScheduler
 from pathlib import Path
 import Pyro4
 import sys
