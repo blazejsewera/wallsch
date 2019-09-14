@@ -27,7 +27,7 @@ def main():
                 exit(1)
         elif cmd == 'change':
             try:
-                wallsch.update_wallpaper()
+                wallsch.change_wallpaper()
             except Pyro4.errors.CommunicationError:
                 print('Daemon not running.')
                 exit(1)
