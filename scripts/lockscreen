@@ -20,6 +20,7 @@ locktext=$(date +%A),\ $(date --iso-8601=date)
 
 i3lock \
   -t -i "$WP" \
+  --refresh-rate=0.2 \
   --timepos='x+110:h-70' \
   --datepos='x+43:h-45' \
   --clock --date-align 1 --datestr "$locktext" \
