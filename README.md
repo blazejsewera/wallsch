@@ -36,6 +36,6 @@ This data is stored locally on you computer, never uploaded.
 
 Remember to put the `wallschd` (if you're using feh) or `wallschd -e` (to use the extended wallpaper changing script) command in you startup config (eg. `~/.config/i3/config` or `.xinitrc`).
 
-> Made with <3 by thejazzroot
-> (C) 2019 Błażej Sewera
+> Made with <3 by thejazzroot  
+> (C) 2019 Błażej Sewera  
 > License: MPL 2.0
