@@ -98,17 +98,20 @@ class WallpaperScheduler(object):
                                    trigger='date',
                                    args=[True],
                                    run_date=self.sunrise_time,
-                                   replace_existing=True)
+                                   replace_existing=True,
+                                   misfire_grace_time=8*60*60)
         self.sunset_time = self.sun.get_local_sunset_time()
         if now < self.sunset_time:
             self.scheduler.add_job(self.set_day,
                                    trigger='date',
                                    args=[False],
                                    run_date=self.sunset_time,
-                                   replace_existing=True)
+                                   replace_existing=True,
+                                   misfire_grace_time=8*60*60)
         self.scheduler.add_job(self.refresh_sun,
                                trigger='date',
-                               run_date=tomorrow)
+                               run_date=tomorrow,
+                               misfire_grace_time=24*60*60-1)
 
     def set_day(self, is_day):
         '''
