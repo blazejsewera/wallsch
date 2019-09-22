@@ -8,7 +8,7 @@ with readme.open('r') as f:
     long_description = f.read()
 
 setup(name='wallsch',
-      version='0.5',
+      version='0.6',
       description='A simple wallpaper changer/scheduler with night/day split',
       long_description=long_description,
       long_description_content_type='text/markdown',
