@@ -161,7 +161,7 @@ class WallpaperScheduler(object):
             subprocess.run(
                 [
                     'nitrogen',
-                    '--set-tiled',
+                    '--set-zoom-fill',
                     wallpaper_to_set
                 ],
                 stdout=subprocess.DEVNULL)
