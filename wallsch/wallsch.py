@@ -160,8 +160,8 @@ class WallpaperScheduler(object):
         else:
             subprocess.run(
                 [
-                    'feh',
-                    '--bg-fill',
+                    'nitrogen',
+                    '--set-tiled',
                     wallpaper_to_set
                 ],
                 stdout=subprocess.DEVNULL)
