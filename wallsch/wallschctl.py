@@ -40,6 +40,14 @@ def main():
             except Pyro4.errors.CommunicationError:
                 print('Daemon not running.')
                 exit(0)
+        elif cmd == 'help':
+            print('Available commands:\n'
+                  '  update - update file list (use after adding\n'
+                  '    or removing files in wallpaper directory)\n'
+                  '  change - change the wallpaper immediately\n'
+                  '  lock - lock the screen\n'
+                  '  close - shutdown the daemon\n'
+                  '  mkconfig - interactively make a new config file')
         else:
             print('Wrong command. Available commands:\n'
                   '  update - update file list (use after adding\n'

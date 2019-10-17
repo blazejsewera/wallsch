@@ -1,0 +1,40 @@
+#!/bin/bash
+
+revert() {
+  xset dpms 0 0 0
+}
+
+trap revert HUP INT TERM
+xset dpms 5 5 5
+
+WP=$1
+
+insidecolor=00000000
+ringcolor=ffffffff
+keyhlcolor=00000077
+bshlcolor=d23c3dff
+separatorcolor=00000000
+insidevercolor=00000000
+insidewrongcolor=d23c3d20
+ringvercolor=ffffffff
+ringwrongcolor=ffffffff
+verifcolor=ffffffff
+timecolor=ffffffff
+datecolor=ffffffef
+loginbox=00000066
+font="monospace"
+
+i3lock \
+  -n -t -i "$WP" \
+  --refresh-rate=0.2 \
+  --insidecolor=$insidecolor --ringcolor=$ringcolor --line-uses-inside \
+  --keyhlcolor=$keyhlcolor --bshlcolor=$bshlcolor --separatorcolor=$separatorcolor \
+  --insidevercolor=$insidevercolor --insidewrongcolor=$insidewrongcolor \
+  --ringvercolor=$ringvercolor --ringwrongcolor=$ringwrongcolor \
+  --radius=100 --ring-width=1 --veriftext='' --wrongtext='' \
+  --verifcolor="$verifcolor" --timecolor="$timecolor" --datecolor="$datecolor" \
+  --time-font="$font" --date-font="$font" --layout-font="$font" --verif-font="$font" --wrong-font="$font" \
+  --noinputtext='' --force-clock $lockargs \
+  --indpos="x-1800:h+300"
+
+revert
