@@ -14,6 +14,7 @@ def main():
         print('Config not found. Creating')
         from wallsch import tools
         tools.make_config()
+        exit()
 
     wallsch = Pyro4.Proxy(uri)
 
