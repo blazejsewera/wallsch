@@ -6,9 +6,14 @@ import sys
 def main():
     argv = sys.argv[1:]
 
-    pid_file = Path.home()/Path('.config/wallsch/pid')
-    with pid_file.open(mode='r') as pid:
-        uri = str(pid.read())
+    try:
+        pid_file = Path.home()/Path('.config/wallsch/pid')
+        with pid_file.open(mode='r') as pid:
+            uri = str(pid.read())
+    except FileNotFoundError:
+        print('Config not found. Creating')
+        from wallsch import tools
+        tools.make_config()
 
     wallsch = Pyro4.Proxy(uri)
 

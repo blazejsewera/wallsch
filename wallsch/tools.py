@@ -14,6 +14,7 @@ def make_config():
     except FileExistsError:
         print('Directory `~/.config/wallsch` already exists. Skipping.')
 
+    print('-- Input absolute paths.')
     while True:
         wallpaper_dir = Path(input('Wallpaper directory: ')).absolute()
         if wallpaper_dir.exists():
