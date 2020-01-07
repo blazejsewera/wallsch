@@ -6,17 +6,31 @@ import sys
 def main():
     argv = sys.argv[1:]
 
-    try:
-        pid_file = Path.home()/Path('.config/wallsch/pid')
-        with pid_file.open(mode='r') as pid:
-            uri = str(pid.read())
-    except FileNotFoundError:
+    conf_file = Path.home()/Path('.config/wallsch/config.json')
+    if not conf_file.is_file():
         print('Config not found. Creating')
         from wallsch import tools
         tools.make_config()
         exit()
 
+    try:
+        pid_file = Path.home()/Path('.config/wallsch/pid')
+        with pid_file.open(mode='r') as pid:
+            uri = str(pid.read())
+    except FileNotFoundError:
+        print('Daemon not running.')
+        exit(1)
+
     wallsch = Pyro4.Proxy(uri)
+
+    if not argv:
+        print('Available commands:\n'
+              '  update - update file list (use after adding\n'
+              '    or removing files in wallpaper directory)\n'
+              '  change - change the wallpaper immediately\n'
+              '  lock - lock the screen\n'
+              '  close - shutdown the daemon\n'
+              '  mkconfig - interactively make a new config file')
 
     for cmd in argv:
         if cmd == 'lock':
@@ -40,6 +54,7 @@ def main():
         elif cmd == 'mkconfig':
             from wallsch import tools
             tools.make_config()
+            exit()
         elif cmd == 'close':
             try:
                 wallsch.shutdown()
