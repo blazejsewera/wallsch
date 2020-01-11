@@ -34,7 +34,7 @@ wallschctl mkconfig
 And put in all the required information. Use absolute paths to avoid errors.
 This data is stored locally on you computer, never uploaded.
 
-Remember to put the `wallschd` (if you're using nitrogen) or `wallschd -e` (to use the extended wallpaper changing script) command in you startup config (eg. `~/.config/i3/config` or `.xinitrc`).
+Remember to put the `wallschd` (if you're using nitrogen) or `wallschd -e` (to use the extended wallpaper changing script) command in your startup config (eg. `~/.config/i3/config` or `.xinitrc`).
 
 > Made with <3 by thejazzroot  
 > (C) 2019 Błażej Sewera  

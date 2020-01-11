@@ -41,7 +41,7 @@ def main():
     except getopt.GetoptError:
         print('Available options:\n'
               '  -v - verbose output\n'
-              '  -e - extended shell script (simple one only supports feh)')
+              '  -e - extended shell script (simple one only supports nitrogen)')
         exit(1)
 
     for opt, _ in opts:
