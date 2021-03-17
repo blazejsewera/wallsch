@@ -1,4 +1,4 @@
-https://github.com/jazzsewera/wallsch# Wallsch
+# Wallsch
 A simple wallpaper scheduler daemon.
 
 Designed to work with feh, but works also with different wallpaper programs.
