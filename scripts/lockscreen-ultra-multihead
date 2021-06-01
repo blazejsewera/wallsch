@@ -36,16 +36,16 @@ i3lock \
   -n -t -i "$WP" \
   -c "000000FF" \
   --refresh-rate=0.2 \
-  --timepos='x-2410:h+150' \
-  --datepos='x-2480:h+175' \
-  --clock --date-align 1 --datestr "$locktext" \
-  --insidecolor=$insidecolor --ringcolor=$ringcolor --line-uses-inside \
-  --keyhlcolor=$keyhlcolor --bshlcolor=$bshlcolor --separatorcolor=$separatorcolor \
-  --insidevercolor=$insidevercolor --insidewrongcolor=$insidewrongcolor \
-  --ringvercolor=$ringvercolor --ringwrongcolor=$ringwrongcolor --indpos='x-2270:h+150' \
-  --radius=20 --ring-width=4 --veriftext='' --wrongtext='' \
-  --verifcolor="$verifcolor" --timecolor="$timecolor" --datecolor="$datecolor" \
+  --time-pos='x-2410:h+150' \
+  --date-pos='x-2480:h+175' \
+  --clock --date-align 1 --date-str "$locktext" \
+  --inside-color=$insidecolor --ring-color=$ringcolor --line-uses-inside \
+  --keyhl-color=$keyhlcolor --bshl-color=$bshlcolor --separator-color=$separatorcolor \
+  --insidever-color=$insidevercolor --insidewrong-color=$insidewrongcolor \
+  --ringver-color=$ringvercolor --ringwrong-color=$ringwrongcolor --ind-pos='x-2270:h+150' \
+  --radius=20 --ring-width=4 --verif-text='' --wrong-text='' \
+  --verif-color="$verifcolor" --time-color="$timecolor" --date-color="$datecolor" \
   --time-font="$font_time" --date-font="$font" --layout-font="$font" --verif-font="$font" --wrong-font="$font" \
-  --noinputtext='' --force-clock $lockargs
+  --noinput-text='' --force-clock $lockargs
 
 revert
