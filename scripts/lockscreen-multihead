@@ -33,7 +33,7 @@ font_time="monospace"
 locktext=$(date +%A),\ $(date --iso-8601=date)
 
 i3lock \
-  -n -t -i "$WP" \
+  -n -i "$WP" \
   -c "000000FF" \
   --refresh-rate=0.2 \
   --time-pos='x-2410:h+150' \
