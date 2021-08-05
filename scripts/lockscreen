@@ -34,8 +34,8 @@ locktext=$(date +%A),\ $(date --iso-8601=date)
 i3lock \
   -F -i "$WP" \
   --refresh-rate=0.2 \
-  --timepos='x+110:h-70' \
-  --datepos='x+43:h-45' \
+  --time-pos='x+110:h-70' \
+  --date-pos='x+43:h-45' \
   --clock --date-align 1 --date-str "$locktext" \
   --inside-color=$insidecolor --ring-color=$ringcolor --line-uses-inside \
   --keyhl-color=$keyhlcolor --bshl-color=$bshlcolor --separator-color=$separatorcolor \
